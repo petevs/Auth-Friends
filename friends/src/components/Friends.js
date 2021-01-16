@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { axiosWithAuth } from '../utils/axiosWithAuth'
-import FriendCard from './FriendCard'
+import { Card, CardContent, Typography } from '@material-ui/core/';
+import styled from 'styled-components'
+import { Headline } from './Login';
 
 const Friends = () => {
 
@@ -24,18 +26,42 @@ const Friends = () => {
     },[friends])
 
     return (
-        <div>
+        <Wrapper>
+            <Headline>FRIENDS</Headline>
             {friends.map(friend => {
                 return(
-                    <FriendCard 
-                        key={friend.id} 
-                        {...friend}
-                    />
+                    <MyCard key={friend.id}>
+                        <CardContent>
+                            <Typography variant='h5'>{friend.name}</Typography>
+                            <Typography variant='body2'>
+                                {friend.email}
+                            </Typography>
+                            <Typography variant='body2'>
+                                {friend.age} yrs old
+                            </Typography>
+                            
+                        </CardContent>
+                    </MyCard>
                     )
                 })
             }
-        </div>
+        </Wrapper>
     )
 }
 
 export default Friends
+
+const Wrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    min-height: 100vh;
+    align-content: start;
+    background-color: #F4F7FA;
+    justify-items: center;
+`
+
+const MyCard = styled(Card)`
+    width: 350px;
+    justify-self: center;
+`
