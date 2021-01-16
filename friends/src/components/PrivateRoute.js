@@ -5,6 +5,8 @@ export const PrivateRoute = (props) => {
 
     const { children, ...rest } = props;
 
+    console.log(children)
+
     return (
         <Route
             {...rest}

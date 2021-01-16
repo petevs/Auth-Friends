@@ -1,73 +1,80 @@
-import { TextField, Button } from '@material-ui/core'
-import axios from 'axios'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { TextField, Button } from '@material-ui/core'
+import { axiosWithAuth } from '../utils/axiosWithAuth'
+import { useHistory } from 'react-router-dom'
 
-const Login = () => {
+const AddFriend = () => {
 
     const history = useHistory()
 
-    const initialValues = {
-        username: '',
-        password: ''
+    const initialState = {
+        name: '',
+        age: '',
+        email: ''
     }
 
-    const [credentials, setCredentials] = useState(initialValues)
+    const [friend, setFriend] = useState(initialState)
 
     const handleChange = (e) => {
-        setCredentials({
-            ...credentials,
+        setFriend({
+            ...friend,
             [e.target.name]: e.target.value
         })
     }
 
-    const login = (e) => {
+
+    const addFriend = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:5000/api/login", credentials
-        )
+        axiosWithAuth().post("http://localhost:5000/api/friends", friend)
             .then(res => {
-                localStorage.setItem("token", res.data.payload);
-                history.push('/friends')
+                setFriend(initialState)
             })
             .catch(err => console.log(err))
     }
 
-
     return (
         <Wrapper>
             <Headline>Friends</Headline>
-            <MyForm onSubmit={login}>
+            <MyForm onSubmit={addFriend}>
                 <TextField
                     type='text'
-                    name='username'
-                    value={credentials.username}
+                    name='name'
+                    value={friend.name}
                     onChange={handleChange}
-                    label="Username" 
+                    label="name" 
                     variant="standard"
                 />
                 <TextField
-                    type='password'
-                    name='password'
-                    value={credentials.password}
+                    type='text'
+                    name='age'
+                    value={friend.age}
                     onChange={handleChange}
-                    label="Password" 
+                    label="age" 
+                    variant="standard"
+                />
+                <TextField
+                    type='email'
+                    name='email'
+                    value={friend.email}
+                    onChange={handleChange}
+                    label="email" 
                     variant="standard"
                 />
                 <Button 
                     variant="contained" 
                     color="primary" 
                     size='large'
-                    onClick={login}
+                    onClick={addFriend}
                 >
-                    Login
+                    Add Friend
                 </Button>
             </MyForm>
         </Wrapper>
     )
 }
 
-export default Login
+export default AddFriend
 
 const Wrapper = styled.div`
     display: grid;

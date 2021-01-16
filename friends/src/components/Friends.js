@@ -59,6 +59,7 @@ const Wrapper = styled.div`
     align-content: start;
     background-color: #F4F7FA;
     justify-items: center;
+    padding: 2rem 1rem;
 `
 
 const MyCard = styled(Card)`
